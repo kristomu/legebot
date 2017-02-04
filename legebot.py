@@ -62,14 +62,17 @@ def send_mail(sender, recipient, subject, body, mail_server):
 # 1. Load "last time we checked" and auth information from pickle
 
 try:
-	last_seen_doc_stats = cPickle.load(open("lastseen.dat", "rb"))
 	id_data = cPickle.load(open("id_data.dat", "rb"))
+except IOError:
+	id_data = {}
+	
+try:
+	last_seen_doc_stats = cPickle.load(open("lastseen.dat", "rb"))
 	last_seen_vacancies = parse_doc_2.get_vacancy_numbers(last_seen_doc_stats, 
 		monitor_who)
 except IOError:
 	last_seen_doc_stats = None
 	last_seen_vacancies = None
-	id_data = {}
 
 i = 0
 
