@@ -91,7 +91,22 @@ while True:
 	doc_stats = parse_doc_2.get_doctor_data(
 		parse_doc_2.get_doctor_data_page(id_data, kommune))
 
-	vacancies = parse_doc_2.get_vacancy_numbers(doc_stats, monitor_who)
+	# 3. Parse the data. If something strange happens, log it so we
+	# can fix later.
+	try:
+		vacancies = parse_doc_2.get_vacancy_numbers(doc_stats, monitor_who)
+	except KeyError as e:
+		with open("error_log.dat", "a") as errlog:
+			now_readable = time.strftime('%X %x %Z')
+			err_preamble = now_readable + ": Error! Caught KeyError with args " + str(e.args)
+
+			errlog.write(err_preamble + "\n")
+			print err_preamble
+
+			err_dump = now_readable + ": Error! doc_stats dump: " + str(doc_stats)
+			errlog.write(err_dump + "\n")
+			print err_dump
+		vacancies = [-1]*len(monitor_who)
 
 	if last_seen_vacancies == None:
 		last_seen_vacancies = [-1]*len(vacancies)
