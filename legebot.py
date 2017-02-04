@@ -64,7 +64,7 @@ def send_mail(sender, recipient, subject, body, mail_server):
 try:
 	last_seen_doc_stats = cPickle.load(open("lastseen.dat", "rb"))
 	id_data = cPickle.load(open("id_data.dat", "rb"))
-	last_seen_vacancies = parse_doc.get_vacancy_numbers(last_seen_doc_stats, 
+	last_seen_vacancies = parse_doc_2.get_vacancy_numbers(last_seen_doc_stats, 
 		monitor_who)
 except IOError:
 	last_seen_doc_stats = None
